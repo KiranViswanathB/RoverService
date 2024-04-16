@@ -6,7 +6,10 @@ builder.Services.AddControllers();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+builder.Services.AddHttpClient("NasaApi", httpClient =>
+{
+    httpClient.BaseAddress = new Uri(builder.Configuration.GetSection("NasaApi")?.GetSection("BaseUrl")?.Value ?? "");
+});
 
 app.UseAuthorization();
 

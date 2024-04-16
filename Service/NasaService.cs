@@ -1,6 +1,7 @@
 ﻿using RoverService.Models;
 using Newtonsoft.Json;
 
+
 namespace RoverService.Service
 {
     public class NasaService :INasaService
@@ -16,7 +17,7 @@ namespace RoverService.Service
 
         public async Task<PhotoDto?> GetPhotos(DateTime earthDate)
         {
-            string apiKey = _configuration.GetSection("NasaApi")?.GetSection("ApiKey")?.Value ?? "";
+            string apiKey = Environment.GetEnvironmentVariable("NASA_API_KEY") ?? "";
             var httpClient = _httpClientFactory.CreateClient("NasaApi");
             var response = await httpClient.GetAsync($"/mars-photos/api/v1/rovers/curiosity/photos?earth_date={earthDate.ToString("yyyy-MM-dd")}&api_key={apiKey}");
 

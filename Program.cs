@@ -17,9 +17,24 @@ builder.Services.AddHttpClient("NasaApi", httpClient =>
 
 builder.Services.AddScoped<INasaService, NasaService>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("MyAllowedOrigins",
+        policy =>
+        {
+            policy.AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
+
 var app = builder.Build();
 
+app.UseCors("MyAllowedOrigins");
+
 app.UseAuthorization();
+
+
 
 app.MapControllers();
 
